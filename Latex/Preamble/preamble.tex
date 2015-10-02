@@ -1,0 +1,231 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%Opsætning af format%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,oneside]{memoir} %A4papir, to side, størrelse 12, type memoir 	%TWOSIDE!!!!!!	
+%\documentclass[a4paper,oneside]{memoir} %A4papir, to side, størrelse 12, type memoir 	%ONESIDE!!!!!!
+
+% For dansk opsætning med æ, ø og å, samt pænere orddeling.
+\usepackage[utf8]{inputenc}				% æøå
+\usepackage[danish]{babel}				% dansk opsætning
+\renewcommand{\danishhyphenmins}{22}	% fikser babel fejl/bedre orddeling
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} 
+
+
+%%Høre til under tabel (Pakker, men skal stå før pgfplot pga. default værdier)%%
+\usepackage[table]{xcolor}	
+
+\usepackage{graphicx} 				% Haandtering af eksterne billeder (JPG, PNG, EPS, PDF)
+\usepackage{multirow}               % Fletning af raekker og kolonner (\multicolumn og \multirow)
+\usepackage{wrapfig}				%for figure der skal have tekst om sig
+\usepackage{float}					% Muliggoer eksakt placering af floats, f.eks. \begin{figure}[H]
+\usepackage{enumerate}				% Muliggoer at man kan bruge fx a) i enumerate
+\usepackage{pdflscape}				% Muligør landskab på enkelte sider
+\usepackage{tabularx}				% Tabeller med X width
+\usepackage{mathtools}				% Formler og matematik
+\usepackage{pdfpages}				% til at inkludere PDF filer
+\usepackage[footnote,draft,danish,silent,nomargin]{fixme}	% For at holde styr på mangler i teksten
+\usepackage{ifthen}					% If then
+\usepackage{hyperref}
+\usepackage{textcomp,gensymb}				% symboler til latex
+
+
+% ?? Using
+%\usepackage[bottom]{footmisc} %fodnoter i bunden af arket
+
+% Complains
+% \usepackage{caption}
+
+%--------------------------------------------------------------------
+% Billeder bliver lagt i Media
+%--------------------------------------------------------------------
+\graphicspath{{Media/}}
+
+%--------------------------------------------------------------------
+% Marginer
+%--------------------------------------------------------------------
+\usepackage{ragged2e,anyfontsize}		% Justering af elementer
+\raggedbottom	%Ingen side strech for twopage
+\setlrmarginsandblock{3cm}{3cm}{*}		%Højre - venstre
+\setulmarginsandblock{3cm}{2.5cm}{*}	%Øverst - nederst
+\checkandfixthelayout[nearest]    		%Specifikt valg af højde algoritme
+% No more use 2015 \usepackage{fixltx2e}					% Retter forskellige fejl i LaTeX-kernen
+
+%--------------------------------------------------------------------
+%  Inholdsfortegnelse
+%--------------------------------------------------------------------
+\setcounter{tocdepth}{2} % inkludere sub + subsubsection i inholdsfortegnelde
+\setsecnumdepth{subsection}
+
+
+%--------------------------------------------------------------------
+% Kapitel formatering
+%--------------------------------------------------------------------
+\usepackage{titlesec} 
+\titleformat{\chapter}		  % Fjerne Kapitel og tal fra chapters
+			{\Large\bfseries} % format
+			{}                % label
+			{0pt}             % sep
+			{\huge}           % before-code
+
+%--------------------------------------------------------------------
+% Sektion formatering
+%--------------------------------------------------------------------
+\titlespacing\section{0pt}
+{24pt plus 4pt minus 2pt}{6pt plus 2pt minus 2pt} %halvt mellemrum efter section
+
+\titlespacing\subsection{0pt}
+{18pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt} %kun lidt mellemrum efter subsection
+
+\titlespacing\subsubsection{0pt}
+{18pt plus 4pt minus 2pt}{2pt plus 2pt minus 2pt} %kun lidt mellemrum efter subsubsection 
+
+\setlength\parindent{0pt} %Ingen indryk efter ny afsnit
+
+
+
+%--------------------------------------------------------------------
+% Sidehoved og -fod
+%--------------------------------------------------------------------
+\let\footruleskip\undefined  %fixer memoir default footruleskip
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\textit{Katrines Kælder Kasseapparat}}
+\fancyfoot[RO,LE]{\thepage\ af \thelastpage}  	% sættet sidetal tal h/v efter om der er ulige
+												% eller lige sidetal
+
+\fancypagestyle{plain}{% bruges ved Undtagelser						
+  \fancyhf{}%
+  \fancyfoot[RO,LE]{\thepage\ af \thelastpage}	
+  \renewcommand{\headrulewidth}{0pt}			%Ingen linje ved chapter, kun sidetal
+}
+
+%--------------------------------------------------------------------
+% Literaturliste liste
+%--------------------------------------------------------------------
+\usepackage[danish]{varioref}				% Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
+\usepackage{natbib}							% Udvidelse med naturvidenskabelige citationsmodeller
+\bibpunct[,]{[}{]}{;}{a}{,}{,} 				% Definerer de 6 parametre ved Harvard henvisning 
+											% (bl.a. parantestype og seperatortegn)
+\bibliographystyle{Latex/Litteratur/harvard}		% Udseende af litteraturlisten.
+
+%--------------------------------------------------------------------
+% Ordliste
+%--------------------------------------------------------------------
+\usepackage[nonumberlist,toc]{glossaries}
+\makeglossaries
+\input{Latex/Glossary/glossary}
+
+
+%--------------------------------------------------------------------
+% Custom funktioner
+%--------------------------------------------------------------------
+
+% Forsiden
+\usepackage{Latex/Functions/frontpage}
+
+% Usecases
+\usepackage{Latex/Functions/usecases}
+
+% Actors
+\usepackage{Latex/Functions/actors}
+
+% Sysml
+\usepackage{Latex/Functions/sysml}
+
+% Accepttests
+\usepackage{Latex/Functions/accepttests}
+
+
+
+\newcommand{\RevisionsTabel}[2]
+{
+\begin{table}[H]
+\centering
+{\rowcolors{2}{white!80!black!30}{white!70!black!60} %farver på hver anden række -starter på 3
+\setlength{\arrayrulewidth}{0.2mm}					 %tykkelse på linier 
+\setlength{\tabcolsep}{10pt}						 %indryk i celle 
+\renewcommand{\arraystretch}{1.5}					 %højden på tabelrum
+\center
+\begin{tabular}{|>{\raggedright}p{2cm}|>{\raggedright}p{2cm}|>{\raggedright}p{2cm}|>{\raggedright\arraybackslash}p{6cm}|}		 %længden på alle rum
+\hline
+
+\multicolumn{4}{|>{\columncolor{white!20!black!90}}m{14.18cm}|}{\textcolor{white}{\large{\textbf{Revision}}}} \\\hline
+\rowcolor{white!70!black!60}
+\textcolor{black}{\large{\textbf{Ændret af}}}&
+\textcolor{black}{\large{\textbf{Version}}}&	
+\textcolor{black}{\large{\textbf{Dato}}}&
+\textcolor{black}{\large{\textbf{Ændringer}}}\\
+\hline
+#2
+\hline
+\end{tabular}
+}
+\caption{Revision for #1}
+\label{table:#1_Revision}
+\end{table}
+}
+
+\newcommand{\systemSignaler}[3][FLAF]{
+\begin{table}[H]
+\centering
+{\rowcolors{2}{white!80!black!30}{white!70!black!60} %farver på hver anden række -starter på 3
+\setlength{\arrayrulewidth}{0.2mm}					 %tykkelse på linier 
+\setlength{\tabcolsep}{10pt}						 %indryk i celle 
+\renewcommand{\arraystretch}{1.5}					 %højden på tabelrum
+\center
+\begin{tabular}{|>{\raggedright}p{20mm}|>{\raggedright}p{40mm}|>{\raggedright}p{30mm}|>{\raggedright\arraybackslash}p{30mm}|}		 %længden på alle rum
+\hline
+
+\multicolumn{4}{|>{\columncolor{white!20!black!90}}m{14.20cm}|}{\textcolor{white}{\large{\textbf{Signal beskrivelser}}}} \\\hline
+\rowcolor{white!70!black!60}
+\textcolor{black}{\large{\textbf{Navn}}}&
+\textcolor{black}{\large{\textbf{Definition}}}&	
+\textcolor{black}{\large{\textbf{Område}}}&
+\textcolor{black}{\large{\textbf{Kommentar}}}\\
+\hline
+#3
+\hline
+\end{tabular}
+}
+\ifthenelse{ \equal{#1}{FLAF} }{
+\caption{Signal beskrivelser for #2}
+\label{sig:#2_Signal}
+}{
+\caption{Signal beskrivelser for #2}
+\label{sig:#1_Signal}
+}
+
+\end{table}
+}
+
+
+
+% To change a font in the middle of a section
+\newcommand*{\kodefont}{\fontfamily{pcr}\selectfont}
+\DeclareTextFontCommand{\textKode}{\kodefont}
+\newcommand{\funkArg}[2]
+{
+& \textKode{#1}	& \multicolumn{3}{p{115mm}}{#2}\\
+}
+
+\newcommand{\funk}[4]
+{
+\begin{table}[H]
+\begin{tabular}{p{5mm}p{20mm}p{50mm}p{50mm}p{20mm}}
+\multicolumn{5}{p{145mm}}{\textKode{#1}}\\
+& \multicolumn{4}{p{140mm}}{#2}\\
+& \textbf{Returnere} & \multicolumn{3}{p{150mm}}{#3}\\    
+#4                          
+\end{tabular}
+\end{table}
+}
+
+%---------------------------CODE--------------------------
+\usepackage{listings}
+\definecolor{commentGreen}{RGB}{34,139,24}
+\definecolor{stringPurple}{RGB}{208,76,239}
+% skriv:
+% %\lstinputlisting[language=c]{main.c}  	language: om det er c, vhdl ect.
+%											filen: filen koden er i.
+%-----------------------------------------------------------

@@ -1,0 +1,50 @@
+%!TEX root = ../../main.tex
+
+\subsection*{Use Case 1}
+I denne Use Case ser vi hvordan et kontant salg bliver foretaget
+\begin{usecase}{1}
+
+\title{ Kontant Salg } 
+
+\field{Mål:}{ At sælge varer mod kontant betaling }
+
+\field{Initieret af:}{ Bartender }
+
+\field{Aktører:}{ Bartender (Primær) }
+
+\field{Samtidige forekomster:}{1}
+
+%Preconditions: What must be true on start and worth telling the reader?
+\field{Prækondition:}{System skal være tændt og klar}
+
+%Postconditions: What must be true on successful completion and worth telling the reader
+\field{Postkondition:}{ Et kontant salg er foretaget }
+
+%Main Success Scenario: A typical, unconditional happy path scenario of success.
+\scenario{Hovedscenarie:}{
+	\item Bartender vælger varer på systemets varer knapper
+	\item Systemet opdaterer løbende den samlede pris \newline
+	[Extension 1.1: Bartender trykker på knappen der annullerer købet]
+	\item Bartender trykker Betalingsknappen
+	\item System viser Betalingssiden med total prisen \newline
+	[Extension 1.2: Bartender trykker på Tilbage knappen]
+	\item Bartender trykker Kontant knappen
+	\item Systemet viser hovedmenuen hvor total prisen fra salget stadig vises
+}
+
+
+%Extensions: Alternate scenarios of success or failure.
+\scenario{Udvidelser:}{
+	\item Extension 1.1: Bartender trykker på knappen der annullerer købet
+		\begin{enumerate}
+		\item[1.] Systemet sletter den samlede pris
+		\item[2.] Systemet går tilbage til hovedmenuen
+		\end{enumerate}
+	\item Extension 1.2: Bartender trykker på Tilbage knappen
+		\begin{enumerate}
+		\item[1.] Systemet går tilbage til hovedmenuen
+		\end{enumerate}
+}
+
+
+\end{usecase}
